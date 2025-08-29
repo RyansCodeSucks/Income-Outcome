@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income & Outcome Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Floating Calculator Widget -->
+    <div class="floating-calculator" id="floating-calculator">
+        <div class="calculator-header">
+            <h3><i class="fas fa-calculator"></i> Quick Calculator</h3>
+            <button class="minimize-btn" id="minimize-calc">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+        <div class="calculator-body" id="calculator-body">
+            <div class="calc-display">
+                <input type="text" id="calc-display" readonly placeholder="0">
+            </div>
+            <div class="calc-buttons">
+                <button class="calc-btn clear" onclick="calculator.clearCalculator()">C</button>
+                <button class="calc-btn operator" onclick="calculator.addOperator('+')">+</button>
+                <button class="calc-btn operator" onclick="calculator.addOperator('-')">-</button>
+                <button class="calc-btn operator" onclick="calculator.addOperator('×')">×</button>
+                
+                <button class="calc-btn number" onclick="calculator.addNumber('7')">7</button>
+                <button class="calc-btn number" onclick="calculator.addNumber('8')">8</button>
+                <button class="calc-btn number" onclick="calculator.addNumber('9')">9</button>
+                <button class="calc-btn operator" onclick="calculator.addOperator('÷')">÷</button>
+                
+                <button class="calc-btn number" onclick="calculator.addNumber('4')">4</button>
+                <button class="calc-btn number" onclick="calculator.addNumber('5')">5</button>
+                <button class="calc-btn number" onclick="calculator.addNumber('6')">6</button>
+                <button class="calc-btn equals" onclick="calculator.calculate()">=</button>
+                
+                <button class="calc-btn number" onclick="calculator.addNumber('1')">1</button>
+                <button class="calc-btn number" onclick="calculator.addNumber('2')">2</button>
+                <button class="calc-btn number" onclick="calculator.addNumber('3')">3</button>
+                <button class="calc-btn number" onclick="calculator.addNumber('0')">0</button>
+                
+                <button class="calc-btn decimal" onclick="calculator.addDecimal()">.</button>
+                <button class="calc-btn backspace" onclick="calculator.backspace()">
+                    <i class="fas fa-backspace"></i>
+                </button>
+            </div>
+            <div class="calc-actions">
+                <button class="action-btn" onclick="calculator.copyResult()">
+                    <i class="fas fa-copy"></i> Copy Result
+                </button>
+                <button class="action-btn" onclick="calculator.resetCalculator()">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-calculator"></i> Income & Outcome Calculator</h1>
+            <p>Track your finances and see how much you can save</p>
+        </header>
+
+        <div class="calculator-grid">
+            <!-- Income Section -->
+            <div class="section income-section">
+                <h2><i class="fas fa-plus-circle"></i> Income</h2>
+                <div class="input-group">
+                    <label for="salary">Salary/Wages</label>
+                    <input type="number" id="salary" placeholder="0.00" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label for="freelance">Freelance/Part-time</label>
+                    <input type="number" id="freelance" placeholder="0.00" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label for="investments">Investment Income</label>
+                    <input type="number" id="investments" placeholder="0.00" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label for="other-income">Other Income</label>
+                    <input type="number" id="other-income" placeholder="0.00" step="0.01">
+                </div>
+                <div class="add-item">
+                    <button type="button" id="add-income-btn">
+                        <i class="fas fa-plus"></i> Add Custom Income
+                    </button>
+                </div>
+                <div id="custom-income-container"></div>
+            </div>
+
+            <!-- Outcome Section -->
+            <div class="section outcome-section">
+                <h2><i class="fas fa-minus-circle"></i> Expenses</h2>
+                <div class="input-group">
+                    <label for="rent">Rent/Mortgage</label>
+                    <input type="number" id="rent" placeholder="0.00" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label for="utilities">Utilities</label>
+                    <input type="number" id="utilities" placeholder="0.00" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label for="groceries">Groceries</label>
+                    <input type="number" id="groceries" placeholder="0.00" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label for="transportation">Transportation</label>
+                    <input type="number" id="transportation" placeholder="0.00" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label for="entertainment">Entertainment</label>
+                    <input type="number" id="entertainment" placeholder="0.00" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label for="healthcare">Healthcare</label>
+                    <input type="number" id="healthcare" placeholder="0.00" step="0.01">
+                </div>
+                <div class="add-item">
+                    <button type="button" id="add-expense-btn">
+                        <i class="fas fa-plus"></i> Add Custom Expense
+                    </button>
+                </div>
+                <div id="custom-expense-container"></div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section">
+            <button type="button" id="calculate-btn" class="calculate-btn">
+                <i class="fas fa-calculator"></i> Calculate Finances
+            </button>
+            
+            <div class="results-grid" id="results" style="display: none;">
+                <div class="result-card total-income">
+                    <h3>Total Income</h3>
+                    <p class="amount" id="total-income">$0.00</p>
+                </div>
+                <div class="result-card total-expenses">
+                    <h3>Total Expenses</h3>
+                    <p class="amount" id="total-expenses">$0.00</p>
+                </div>
+                <div class="result-card available-money">
+                    <h3>Available for Savings</h3>
+                    <p class="amount" id="available-money">$0.00</p>
+                </div>
+                <div class="result-card savings-percentage">
+                    <h3>Savings Rate</h3>
+                    <p class="amount" id="savings-percentage">0%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Savings Goals Section -->
+        <div class="savings-goals-section">
+            <h2><i class="fas fa-piggy-bank"></i> Savings Goals</h2>
+            <div class="goals-input">
+                <div class="input-group">
+                    <label for="monthly-savings-goal">Monthly Savings Goal</label>
+                    <input type="number" id="monthly-savings-goal" placeholder="0.00" step="0.01">
+                </div>
+                <div class="goal-status" id="goal-status"></div>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="history-section">
+            <h2><i class="fas fa-history"></i> Calculation History</h2>
+            <div class="history-controls">
+                <button type="button" id="save-calculation-btn" class="save-btn">
+                    <i class="fas fa-save"></i> Save Current Calculation
+                </button>
+                <button type="button" id="clear-history-btn" class="clear-btn">
+                    <i class="fas fa-trash"></i> Clear History
+                </button>
+            </div>
+            <div id="history-list" class="history-list"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
