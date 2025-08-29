@@ -7,6 +7,27 @@ class IncomeOutcomeCalculator {
         this.calculatorResult = 0;
         this.isDragging = false;
         this.dragOffset = { x: 0, y: 0 };
+        this.selectedCurrency = 'USD';
+        this.currencySymbols = {
+            'USD': '$', 'EUR': '€', 'GBP': '£', 'CAD': 'C$', 'AUD': 'A$',
+            'JPY': '¥', 'CHF': 'CHF', 'CNY': '¥', 'INR': '₹', 'BRL': 'R$',
+            'MXN': '$', 'KRW': '₩', 'SGD': 'S$', 'NZD': 'NZ$', 'SEK': 'kr',
+            'NOK': 'kr', 'DKK': 'kr', 'PLN': 'zł', 'CZK': 'Kč', 'HUF': 'Ft',
+            'RUB': '₽', 'TRY': '₺', 'ZAR': 'R', 'HKD': 'HK$', 'TWD': 'NT$',
+            'THB': '฿', 'MYR': 'RM', 'IDR': 'Rp', 'PHP': '₱', 'VND': '₫'
+        };
+        this.currencyNames = {
+            'USD': 'US Dollar', 'EUR': 'Euro', 'GBP': 'British Pound',
+            'CAD': 'Canadian Dollar', 'AUD': 'Australian Dollar', 'JPY': 'Japanese Yen',
+            'CHF': 'Swiss Franc', 'CNY': 'Chinese Yuan', 'INR': 'Indian Rupee',
+            'BRL': 'Brazilian Real', 'MXN': 'Mexican Peso', 'KRW': 'South Korean Won',
+            'SGD': 'Singapore Dollar', 'NZD': 'New Zealand Dollar', 'SEK': 'Swedish Krona',
+            'NOK': 'Norwegian Krone', 'DKK': 'Danish Krone', 'PLN': 'Polish Złoty',
+            'CZK': 'Czech Koruna', 'HUF': 'Hungarian Forint', 'RUB': 'Russian Ruble',
+            'TRY': 'Turkish Lira', 'ZAR': 'South African Rand', 'HKD': 'Hong Kong Dollar',
+            'TWD': 'New Taiwan Dollar', 'THB': 'Thai Baht', 'MYR': 'Malaysian Ringgit',
+            'IDR': 'Indonesian Rupiah', 'PHP': 'Philippine Peso', 'VND': 'Vietnamese Dong'
+        };
         this.init();
     }
 
@@ -15,6 +36,19 @@ class IncomeOutcomeCalculator {
         this.bindEvents();
         this.updateGoalStatus();
         this.initFloatingCalculator();
+        this.loadCurrencyPreference();
+    }
+
+    loadCurrencyPreference() {
+        const savedCurrency = localStorage.getItem('selectedCurrency');
+        if (savedCurrency && this.currencySymbols[savedCurrency]) {
+            this.selectedCurrency = savedCurrency;
+            document.getElementById('currency-select').value = savedCurrency;
+        }
+    }
+
+    saveCurrencyPreference() {
+        localStorage.setItem('selectedCurrency', this.selectedCurrency);
     }
 
     initFloatingCalculator() {
@@ -202,6 +236,14 @@ class IncomeOutcomeCalculator {
             this.updateGoalStatus();
         });
 
+        // Currency selection
+        document.getElementById('currency-select').addEventListener('change', (e) => {
+            this.selectedCurrency = e.target.value;
+            this.saveCurrencyPreference();
+            this.updateCurrencyDisplay();
+            this.showNotification(`Currency changed to ${this.currencyNames[this.selectedCurrency]}`, 'info');
+        });
+
         // Minimize calculator button
         document.getElementById('minimize-calc').addEventListener('click', () => {
             this.minimizeCalculator();
@@ -209,6 +251,19 @@ class IncomeOutcomeCalculator {
 
         // Auto-calculate on input changes
         this.addAutoCalculateListeners();
+    }
+
+    updateCurrencyDisplay() {
+        // Update all displayed amounts with new currency
+        if (this.hasValidInputs()) {
+            this.calculateFinances();
+        }
+        
+        // Update savings goal status if it exists
+        this.updateGoalStatus();
+        
+        // Update history display
+        this.displayHistory();
     }
 
     addAutoCalculateListeners() {
@@ -385,11 +440,11 @@ class IncomeOutcomeCalculator {
         
         if (goal > 0) {
             if (available >= goal) {
-                goalStatus.textContent = `🎉 Goal met! You have ${this.formatCurrency(available - goal)} extra for savings.`;
+                goalStatus.textContent = `🎉 Goal met! You have ${this.formatCurrency(available - goal)} extra disposable income.`;
                 goalStatus.className = 'goal-status met';
             } else {
                 const shortfall = goal - available;
-                goalStatus.textContent = `📊 Goal not met. You need ${this.formatCurrency(shortfall)} more to reach your goal.`;
+                goalStatus.textContent = `📊 Goal not met. You need ${this.formatCurrency(shortfall)} more to reach your disposable income goal.`;
                 goalStatus.className = 'goal-status not-met';
             }
         } else {
@@ -437,8 +492,8 @@ class IncomeOutcomeCalculator {
                 <div class="history-details">
                     <div><span>Income:</span> <strong>${this.formatCurrency(calc.income)}</strong></div>
                     <div><span>Expenses:</span> <strong>${this.formatCurrency(calc.expenses)}</strong></div>
-                    <div><span>Available:</span> <strong>${this.formatCurrency(calc.available)}</strong></div>
-                    <div><span>Savings Rate:</span> <strong>${calc.savingsRate.toFixed(1)}%</strong></div>
+                    <div><span>Disposable Income:</span> <strong>${this.formatCurrency(calc.available)}</strong></div>
+                    <div><span>Disposable Income Rate:</span> <strong>${calc.savingsRate.toFixed(1)}%</strong></div>
                 </div>
             `;
             historyList.appendChild(historyItem);
@@ -467,11 +522,29 @@ class IncomeOutcomeCalculator {
     }
 
     formatCurrency(amount) {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 2
-        }).format(amount);
+        const symbol = this.currencySymbols[this.selectedCurrency] || '$';
+        
+        // Special formatting for different currencies
+        switch (this.selectedCurrency) {
+            case 'JPY':
+            case 'KRW':
+            case 'IDR':
+            case 'VND':
+                // These currencies typically don't use decimal places
+                return `${symbol}${Math.round(amount).toLocaleString()}`;
+            
+            case 'CNY':
+            case 'TWD':
+            case 'THB':
+            case 'MYR':
+            case 'PHP':
+                // These currencies use 2 decimal places
+                return `${symbol}${amount.toFixed(2)}`;
+            
+            default:
+                // Most currencies use 2 decimal places
+                return `${symbol}${amount.toFixed(2)}`;
+        }
     }
 
     showNotification(message, type = 'info') {

@@ -65,6 +65,45 @@
         </header>
 
         <div class="calculator-grid">
+            <!-- Currency Selection -->
+            <div class="currency-section">
+                <div class="currency-selector">
+                    <label for="currency-select">Currency:</label>
+                    <select id="currency-select" class="currency-dropdown">
+                        <option value="USD">🇺🇸 USD - US Dollar</option>
+                        <option value="EUR">🇪🇺 EUR - Euro</option>
+                        <option value="GBP">🇬🇧 GBP - British Pound</option>
+                        <option value="CAD">🇨🇦 CAD - Canadian Dollar</option>
+                        <option value="AUD">🇦🇺 AUD - Australian Dollar</option>
+                        <option value="JPY">🇯🇵 JPY - Japanese Yen</option>
+                        <option value="CHF">🇨🇭 CHF - Swiss Franc</option>
+                        <option value="CNY">🇨🇳 CNY - Chinese Yuan</option>
+                        <option value="INR">🇮🇳 INR - Indian Rupee</option>
+                        <option value="BRL">🇧🇷 BRL - Brazilian Real</option>
+                        <option value="MXN">🇲🇽 MXN - Mexican Peso</option>
+                        <option value="KRW">🇰🇷 KRW - South Korean Won</option>
+                        <option value="SGD">🇸🇬 SGD - Singapore Dollar</option>
+                        <option value="NZD">🇳🇿 NZD - New Zealand Dollar</option>
+                        <option value="SEK">🇸🇪 SEK - Swedish Krona</option>
+                        <option value="NOK">🇳🇴 NOK - Norwegian Krone</option>
+                        <option value="DKK">🇩🇰 DKK - Danish Krone</option>
+                        <option value="PLN">🇵🇱 PLN - Polish Złoty</option>
+                        <option value="CZK">🇨🇿 CZK - Czech Koruna</option>
+                        <option value="HUF">🇭🇺 HUF - Hungarian Forint</option>
+                        <option value="RUB">🇷🇺 RUB - Russian Ruble</option>
+                        <option value="TRY">🇹🇷 TRY - Turkish Lira</option>
+                        <option value="ZAR">🇿🇦 ZAR - South African Rand</option>
+                        <option value="HKD">🇭🇰 HKD - Hong Kong Dollar</option>
+                        <option value="TWD">🇹🇼 TWD - New Taiwan Dollar</option>
+                        <option value="THB">🇹🇭 THB - Thai Baht</option>
+                        <option value="MYR">🇲🇾 MYR - Malaysian Ringgit</option>
+                        <option value="IDR">🇮🇩 IDR - Indonesian Rupiah</option>
+                        <option value="PHP">🇵🇭 PHP - Philippine Peso</option>
+                        <option value="VND">🇻🇳 VND - Vietnamese Dong</option>
+                    </select>
+                </div>
+            </div>
+
             <!-- Income Section -->
             <div class="section income-section">
                 <h2><i class="fas fa-plus-circle"></i> Income</h2>
@@ -144,11 +183,11 @@
                     <p class="amount" id="total-expenses">$0.00</p>
                 </div>
                 <div class="result-card available-money">
-                    <h3>Available for Savings</h3>
+                    <h3>Disposable Income</h3>
                     <p class="amount" id="available-money">$0.00</p>
                 </div>
                 <div class="result-card savings-percentage">
-                    <h3>Savings Rate</h3>
+                    <h3>Disposable Income Rate</h3>
                     <p class="amount" id="savings-percentage">0%</p>
                 </div>
             </div>
@@ -156,10 +195,10 @@
 
         <!-- Savings Goals Section -->
         <div class="savings-goals-section">
-            <h2><i class="fas fa-piggy-bank"></i> Savings Goals</h2>
+            <h2><i class="fas fa-piggy-bank"></i> Disposable Income Goals</h2>
             <div class="goals-input">
                 <div class="input-group">
-                    <label for="monthly-savings-goal">Monthly Savings Goal</label>
+                    <label for="monthly-savings-goal">Monthly Disposable Income Goal</label>
                     <input type="number" id="monthly-savings-goal" placeholder="0.00" step="0.01">
                 </div>
                 <div class="goal-status" id="goal-status"></div>
