@@ -17,17 +17,17 @@ body {
     position: fixed;
     top: 20px;
     right: 20px;
-    width: 300px;
+    width: 240px;
     background: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     z-index: 1000;
     transition: all 0.3s ease;
-    border: 2px solid #e2e8f0;
+    border: 1px solid #e2e8f0;
 }
 
 .floating-calculator.minimized {
-    height: 50px;
+    height: 40px;
     overflow: hidden;
 }
 
@@ -38,8 +38,8 @@ body {
 .calculator-header {
     background: linear-gradient(135deg, #667eea 0%, #5a67d8 100%);
     color: white;
-    padding: 15px 20px;
-    border-radius: 13px 13px 0 0;
+    padding: 12px 16px;
+    border-radius: 11px 11px 0 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -47,26 +47,27 @@ body {
 }
 
 .calculator-header h3 {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     margin: 0;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 .minimize-btn {
     background: rgba(255,255,255,0.2);
     border: none;
     color: white;
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    font-size: 0.7rem;
 }
 
 .minimize-btn:hover {
@@ -75,19 +76,19 @@ body {
 }
 
 .calculator-body {
-    padding: 20px;
+    padding: 16px;
 }
 
 .calc-display {
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .calc-display input {
     width: 100%;
-    padding: 15px;
+    padding: 12px;
     border: 2px solid #e2e8f0;
-    border-radius: 10px;
-    font-size: 1.2rem;
+    border-radius: 8px;
+    font-size: 1rem;
     text-align: right;
     background: #f7fafc;
     color: #2d3748;
@@ -103,15 +104,15 @@ body {
 .calc-buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin-bottom: 15px;
+    gap: 6px;
+    margin-bottom: 12px;
 }
 
 .calc-btn {
-    padding: 12px;
+    padding: 10px 8px;
     border: none;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -121,8 +122,8 @@ body {
 }
 
 .calc-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
 }
 
 .calc-btn.number {
@@ -185,24 +186,24 @@ body {
 
 .calc-actions {
     display: flex;
-    gap: 10px;
+    gap: 8px;
 }
 
 .action-btn {
     flex: 1;
-    padding: 10px;
+    padding: 8px;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     background: #edf2f7;
     color: #4a5568;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 4px;
 }
 
 .action-btn:hover {
@@ -562,7 +563,7 @@ body {
         top: auto;
         bottom: 20px;
         right: 20px;
-        width: 280px;
+        width: 220px;
     }
     
     .calculator-grid {
@@ -594,7 +595,7 @@ body {
 
 @media (max-width: 480px) {
     .floating-calculator {
-        width: 260px;
+        width: 200px;
         right: 10px;
         bottom: 10px;
     }
